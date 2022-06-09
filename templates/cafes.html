@@ -1,0 +1,26 @@
+{% extends 'bootstrap/base.html' %}
+
+{% block title %}Cafes{% endblock %}
+{% block styles %}
+    {{super()}}
+    <link rel="stylesheet" href="{{url_for('static', filename='css/styles.css')}}">
+    {%endblock%}
+
+{% block content %}
+
+<h1>Cafes</h1>
+        <ul>
+            {% for cafe in cafe_data %}
+                <li><a href="{{url_for('delete_cafe', id=cafe.id)}}">Delete</a>
+                    {{ cafe.name }}
+                    <a href="{{cafe.map_url}}">Location</a>
+                    <a href="{{url_for('edit', id=cafe.id)}}">Edit Cafe Location</a></li>
+            {% endfor %}
+        </ul>
+
+    <p><a href="{{url_for ('add')}}">Add a new Cafe</a></p>
+
+      <p><a href="{{url_for ('home')}}">Return to index page</a></p>
+
+
+{% endblock %}

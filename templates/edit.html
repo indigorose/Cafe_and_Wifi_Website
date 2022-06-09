@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Café Location</title>
+</head>
+<body>
+    <p>Cafe Name: {{cafe.name}} </p> <br>
+    <form action="{{url_for('edit')}}" method="POST">
+        <input hidden="hidden" name="id" value="{{cafe.id}}">
+        <input id="cafe_location"  name="cafe_location" type="text">
+        <button type="submit">Change Café Details</button>
+    </form>
+</body>
+</html>

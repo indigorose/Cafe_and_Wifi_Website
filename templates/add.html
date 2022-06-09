@@ -1,0 +1,55 @@
+{% extends 'bootstrap/base.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}Add A New Cafe{% endblock %}
+{% block styles %}
+    {{super()}}
+    <link rel="stylesheet" href="{{url_for('static', filename='css/styles.css')}}">
+    {%endblock%}
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12 col-md-8">
+
+      <h1>Add a new cafe into the database</h1>
+<!--        <form class="form form-horizontal dark" method="POST" action="{{url_for('add')}}" novalidate>-->
+<!--			<p>-->
+<!--                {{ form.cafe_name.label }}<br> <span style="color:black">{{ form.cafe_name(size=100)}}</span>-->
+<!--				{% for err in form.cafe_name.errors %}-->
+<!--				<span style ="color:red"> {{ err }}</span>-->
+<!--				{% endfor %}-->
+<!--			</p>-->
+<!--            <p>-->
+<!--                {{ form.location.label }}<br> <span style="color:black">{{ form.location(size=100)}}</span>-->
+<!--				{% for err in form.location.errors %}-->
+<!--				<span style ="color:red"> {{ err }}</span>-->
+<!--				{% endfor %}-->
+<!--			</p>-->
+<!--            <p>-->
+<!--                {{ form.opening_time.label }}<br> <span style="color:black">{{ form.opening_time(size=30)}}</span>-->
+<!--			</p>-->
+<!--            <p>-->
+<!--                {{ form.closing_time.label }}<br> <span style="color:black">{{ form.closing_time(size=30)}}</span>-->
+<!--			</p>-->
+<!--            <p>-->
+<!--                {{ form.coffee_rating.label }}<br> <span style="color:black">{{ form.coffee_rating}}</span>-->
+<!--			</p>-->
+<!--            <p>-->
+<!--                {{ form.wifi_strength.label }}<br> <span style="color:black">{{ form.wifi_strength}}</span>-->
+<!--			</p>-->
+<!--            <p>-->
+<!--                {{ form.power.label }}<br> <span style="color:black">{{ form.power}}</span>-->
+<!--			</p>-->
+<!--            <br>-->
+<!--            <p>{{form.submit}}</p>-->
+                      {{ wtf.quick_form(form, novalidate=True) }}
+<!--        </form>-->
+      <!-- This is where your WTForm will go -->
+
+	  <p class="space-above"><a href="{{url_for('cafes')}}">See all cafes</a></p>
+
+    </div>
+  </div>
+</div>
+
+{% endblock %}
