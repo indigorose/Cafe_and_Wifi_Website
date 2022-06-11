@@ -1,16 +1,16 @@
 from flask import Flask, render_template, request, redirect, url_for
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
-# from flask_wtf import FlaskForm
-# from wtforms import StringField, SubmitField
-# from wtforms.validators import DataRequired
-# import requests
+from flask_wtf import FlaskForm
+from wtforms import StringField, SubmitField, BooleanField, DecimalField
+from wtforms.validators import DataRequired, URL
+import requests
 
 app = Flask(__name__)
 Bootstrap(app)
 
 # DB connection information
-# app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
+app.config['SECRET_KEY'] = '8BYkEfBA6O6mth3sLXWlSihBXox7C0sKR6b'
 app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///cafes.db"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
@@ -31,6 +31,26 @@ class Cafe(db.Model):
     coffee_price = db.Column(db.String(250), nullable=True)
 
 
+# Add new cafe form
+class CafeForm(FlaskForm):
+    cafe_name = StringField(label='Cafe Name', validators=[DataRequired()])
+    map_url = StringField(label='Cafe Location on Google Maps (URL)',
+                          validators=[DataRequired(),
+                                      URL()])
+    img_url = StringField(label='Cafe Image',
+                          validators=[DataRequired(),
+                                      URL()])
+    location = StringField(label='Cafe Location')
+    seats = StringField(label='Number of Seats')
+    has_toilet = BooleanField(label='Has Toilets?')
+    has_wifi = BooleanField(label='Wi-Fi Strength Rating')
+    has_sockets = BooleanField(label='Has Sockets?')
+    can_take_calls = BooleanField(label='Take Calls?')
+    coffee_price = DecimalField(label='Coffee Price', places=2, rounding=None)
+    submit = SubmitField(label='Submit')
+    csrf_token = app.secret_key
+
+
 # home page
 @app.route("/")
 def home():
@@ -47,23 +67,24 @@ def cafes():
 # add cafe
 @app.route("/add", methods=["GET", "POST"])
 def add():
+    form = CafeForm()
     if request.method == 'POST':
         new_cafe = Cafe(
-            name=request.form.get("name"),
+            name=request.form.get("cafe_name"),
             map_url=request.form.get("map_url"),
             img_url=request.form.get("img_url"),
-            location=request.form.get("loc"),
-            has_sockets=bool(request.form.get("sockets")),
-            has_toilet=bool(request.form.get("toilet")),
-            has_wifi=bool(request.form.get("wifi")),
-            can_take_calls=bool(request.form.get("calls")),
+            location=request.form.get("location"),
+            has_sockets=bool(request.form.get("has_sockets")),
+            has_toilet=bool(request.form.get("has_toilet")),
+            has_wifi=bool(request.form.get("has_wifi")),
+            can_take_calls=bool(request.form.get("can_take_calls")),
             seats=request.form.get("seats"),
             coffee_price=request.form.get("coffee_price"),
         )
         db.session.add(new_cafe)
         db.session.commit()
         return redirect(url_for('home'))
-    return render_template('add.html')
+    return render_template('add.html', form=form)
 
 
 # delete cafe
