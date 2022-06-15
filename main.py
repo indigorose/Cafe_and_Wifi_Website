@@ -10,6 +10,7 @@ app = Flask(__name__)
 Bootstrap(app)
 
 # DB connection information
+# Todo - Hide secret key
 app.config['SECRET_KEY'] = '8BYkEfBA6O6mth3sLXWlSihBXox7C0sKR6b'
 app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///cafes.db"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
